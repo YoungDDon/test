@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:blotck th:replace="~{/layout/base :: setContent(~{this::content})}">
+    <th:block th:fragment="content">
+        <form id="join" action="http://localhost:8080" method="post" name="frm" @keyup.enter="join">
+            <fieldset>
+                <legend>회원가입</legend>
+                <table>
+                    <tr>
+                        <td>ID</td>
+                        <td><input type="text" ref="id"></td>
+                    </tr>
+                    <tr>
+                        <td>이름</td>
+                        <td><input type="text" ref="name"></td>
+                    </tr>
+                    <tr>
+                        <td>비번</td>
+                        <td><input type="password" ref="pw"></td>
+                    </tr>
+                    <tr>
+                        <td>비번확인</td>
+                        <td><input type="password" ref="pwcheck"></td>
+                    </tr>
+                    <tr>
+                        <td>취미</td>
+                        <td>
+                            <label :for="item" v-for="item in hobbyOpt" :style="{marginRight: '35px'}">{{item}}
+                                <input type="checkbox" :value="item" >
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>성별</td>
+                        <td>
+                            <label :for="item" v-for="item in genderOpt" :style="{marginRight: '35px'}">{{item}}
+                                <input type="radio" v-model="gender" :value="item">
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>전화번호</td>
+                        <td class="phone">
+                            <select v-model="mobile">
+                                <option v-for="item in mobileOpt" :value="item.value">
+                                    {{ item.text }}
+                                </option>
+                            </select>
+                            - <input type="number" ref="mobile1"> -
+                            <input type="number" ref="mobile2">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button type="button" @click="join" name="btnJoin">가입</button>
+                            <button type="reset" name="btnCancel">취소</button>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+        </form>
+
+        <script src="https://unpkg.com/vue"></script>
+            <script>
+        window.onload = function() {
+          new Vue({
+            el: '#join',
+            data: {
+                hobby: [],
+                hobbyOpt: ['A','B','C'],
+
+                gender: "여",
+                genderOpt: ['여','남'],
+
+                mobile: "010",
+                mobileOpt: [
+                    { text: '016', value: '016' },
+                    { text: '011', value: '011' },
+                    { text: '010', value: '010' }
+                ],
+                Users: [
+                 { id: 'user1', name: '사용자1', gender: '여', num: '010-1111-2221'},
+                 { id: 'user2', name: '사용자2', gender: '남', num: '010-1111-2222'},
+                 { id: 'user3', name: '사용자3', gender: '여', num: '010-1111-2223'},
+                 { id: 'user4', name: '사용자4', gender: '남', num: '010-1111-2224'},
+                 { id: 'user5', name: '사용자5', gender: '여', num: '010-1111-2225'},
+                ]
+            },
+            methods: {
+              join: function(){
+                var id = this.$refs.id;
+                var name = this.$refs.name;
+                var pw = this.$refs.pw;
+                var pwcheck = this.$refs.pwcheck;
+                var mobile1 = this.$refs.mobile1;
+                var mobile2 = this.$refs.mobile2;
+
+                if(id.value == '') {
+                    alert('ID를 확인해주세요');
+                    id.focus();
+                    return;
+                }
+                if(name.value == '') {
+                    alert('이름을 확인해주세요');
+                    name.focus();
+                    return;
+                }
+                if(pw.value == '') {
+                    alert('PW를 확인해주세요');
+                    pw.focus();
+                    return;
+                }
+                if(pwcheck.value == '') {
+                    alert('PW를 재확인해주세요');
+                    pwcheck.focus();
+                    return;
+                }
+                if(pwcheck.value != pw.value) {
+                    alert('PW가 틀립니다.');
+                    pw.value = '';
+                    pwcheck.value = '';
+                    pw.focus();
+                    return;
+                }
+                if(mobile1.value == '') {
+                    alert('전화번호를 입력하세요.');
+                    mobile1.focus();
+                    return;
+                }
+                if(mobile1.value.length != 4) {
+                    alert('앞번호를 4자리 입력하세요.');
+                    mobile1.focus();
+                    return;
+                }
+                if(mobile2.value == '') {
+                    alert('뒷번호를 입력하세요.');
+                    mobile2.focus();
+                    return;
+                }
+                if(mobile2.value.length != 4) {
+                    alert('뒷번호를 4자리 입력하세요.');
+                    mobile2.focus();
+                    return;
+                }
+                alert('가입완료!');
+                frm.submit();
+              }
+            }
+          });
+        }
+      </script>
+    </th:block>
+</th:blotck>

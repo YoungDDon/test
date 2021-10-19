@@ -1,0 +1,18 @@
+fieldset {
+      width: 400px;
+      margin: 0 auto;
+    }
+    .phone input{
+      width: 70px;
+    }
+    thead {
+      text-align:center;
+      font-weight: bold;
+    }
+    .User_table{
+      border: 1px solid black;
+      margin: 0 auto;
+    }
+    .User_table td{
+      border: 1px solid black;
+    }
